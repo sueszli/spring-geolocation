@@ -6,7 +6,7 @@ Create a REST API that handles locations.
 
 If requests come with a payload, the API should accept a json and should return a json as well, if a response is required.
 
-- Provide a git repository-
+- Provide a git repository.
 - Write a working solution in Java. 
 - Use any library, framework and tools you think fits the purpose.
 - Please try to write clean code with a good design. 
