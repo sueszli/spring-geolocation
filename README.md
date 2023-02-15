@@ -1,4 +1,4 @@
-# Coordinate System Challenge (Spring-Boot edition ✨)
+# Location Challenge (Spring-Boot edition ✨)
 
 A colleague created a small mobile app prototype to handle locations and you are asked to provide a backend application for it.
 

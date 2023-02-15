@@ -1,6 +1,7 @@
-package coordinateSystem.demo.repository;
+package geolocation.repository;
 
-import coordinateSystem.demo.model.Tutorial;
+
+import geolocation.model.Tutorial;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

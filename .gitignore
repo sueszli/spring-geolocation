@@ -4,13 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Log-Files
-log/
-
-# Database-Files
-/database/
-*.mv.db
-
+### H2 Files ###
+*.db
 
 ### STS ###
 .apt_generated

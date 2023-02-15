@@ -1,7 +1,8 @@
-package coordinateSystem.demo.controller;
+package geolocation.controller;
 
-import coordinateSystem.demo.model.Tutorial;
-import coordinateSystem.demo.repository.TutorialRepository;
+
+import geolocation.model.Tutorial;
+import geolocation.repository.TutorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,9 @@ public class TutorialController {
             List<Tutorial> tutorials = new ArrayList<>();
 
             if (title == null)
-                tutorials.addAll(tutorialRepository.findAll());
+                tutorialRepository.findAll().forEach(tutorials::add);
             else
-                tutorials.addAll(tutorialRepository.findByTitleContaining(title));
+                tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
 
             if (tutorials.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

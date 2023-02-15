@@ -1,4 +1,5 @@
-package coordinateSystem.demo.model;
+package geolocation.model;
+
 
 import jakarta.persistence.*;
 
@@ -7,7 +8,7 @@ import jakarta.persistence.*;
 public class Tutorial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "title")
