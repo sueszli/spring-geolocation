@@ -37,9 +37,6 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     private Specification<Location> buildSpecification(LocationSearchDto query) {
-        var template = Location.builder()
-                .type(query.getType())
-                .build();
 
         return null;
     }
