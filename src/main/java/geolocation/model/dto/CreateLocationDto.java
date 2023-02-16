@@ -1,13 +1,13 @@
-package geolocation.location.model.dto;
+package geolocation.model.dto;
 
-import geolocation.location.model.LocationTypeEnum;
+import geolocation.model.LocationTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.*;
 
-import static geolocation.location.model.entity.Location.MAX_NAME_LENGTH;
+import static geolocation.model.entity.Location.MAX_NAME_LENGTH;
 
 @Getter
 @Setter

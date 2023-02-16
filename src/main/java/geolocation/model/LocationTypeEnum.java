@@ -1,4 +1,4 @@
-package geolocation.location.model;
+package geolocation.model;
 
 public enum LocationTypeEnum {
     premium, standard

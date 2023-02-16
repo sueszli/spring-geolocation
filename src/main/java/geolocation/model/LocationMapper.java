@@ -1,7 +1,7 @@
-package geolocation.location.model;
+package geolocation.model;
 
-import geolocation.location.model.dto.CreateLocationDto;
-import geolocation.location.model.entity.Location;
+import geolocation.model.dto.CreateLocationDto;
+import geolocation.model.entity.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

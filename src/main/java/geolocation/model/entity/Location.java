@@ -1,6 +1,6 @@
-package geolocation.location.model.entity;
+package geolocation.model.entity;
 
-import geolocation.location.model.LocationTypeEnum;
+import geolocation.model.LocationTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,11 +1,11 @@
-package geolocation.location.controller;
+package geolocation.controller;
 
-import geolocation.location.model.LocationMapper;
-import geolocation.location.model.dto.CreateLocationDto;
-import geolocation.location.model.dto.SearchLocationDto;
-import geolocation.location.model.entity.Location;
-import geolocation.location.persistence.LocationDao;
-import geolocation.location.persistence.LocationJpaRepository;
+import geolocation.model.LocationMapper;
+import geolocation.model.dto.CreateLocationDto;
+import geolocation.model.dto.SearchLocationDto;
+import geolocation.model.entity.Location;
+import geolocation.persistence.LocationDao;
+import geolocation.persistence.LocationJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

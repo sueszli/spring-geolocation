@@ -1,6 +1,6 @@
-package geolocation.location.model.dto;
+package geolocation.model.dto;
 
-import geolocation.location.model.LocationTypeEnum;
+import geolocation.model.LocationTypeEnum;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
