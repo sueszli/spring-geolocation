@@ -5,26 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @ToString
 public class LocationCreateDto {
 
-    @NotNull
     @NotBlank
     private String name;
 
-    @Min(-90)
-    @Max(90)
+    @Size(min = -90, max = 90, message = "latitude must be between -90 and 90")
     private double lat;
 
-    @Min(-180)
-    @Max(180)
+    @Size(min = -180, max = 180, message = "longitude must be between -180 and 180")
     private double lng;
 
     @NotNull
