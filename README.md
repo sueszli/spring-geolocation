@@ -24,11 +24,13 @@ The system has to assign the location an `id` and return it back within the resp
 
 Here some example values to create a location:
 
-```
-name: Fancy Place
-lat: 48.2
-lng: 15.6
-type: premium
+```json
+{
+	"name": "Fancy Place",
+	"lat": 48.2,
+	"lng": 15.6,
+	"type": "premium"
+}
 ```
 
 <br><br>
@@ -44,10 +46,17 @@ Results must be ordered by type where `premium` ones come first.
 
 Here is an example to search for a location:
 
+```json
+{
+    "type": "premium",
+    "p1": {
+        "lat": 46.6,
+        "lng": 15.4
+    },
+    "p2": {
+        "lat": 48.8,
+        "lng": 17.5
+    },
+    "limit": 3
+}
 ```
-p1: 46.6, 15.4
-p2: 48.8, 17.5
-type: premium
-limit: 3
-```
-
