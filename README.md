@@ -26,10 +26,10 @@ Here some example values to create a location:
 
 ```json
 {
-	"name": "Fancy Place",
-	"lat": 48.2,
-	"lng": 15.6,
-	"type": "premium"
+  "name": "Fancy Place",
+  "lat": 48.2,
+  "lng": 15.6,
+  "type": "premium"
 }
 ```
 
