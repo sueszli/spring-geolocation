@@ -1,7 +1,5 @@
 package geolocation.model;
 
-import geolocation.model.dto.CreateLocationDto;
-import geolocation.model.entity.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

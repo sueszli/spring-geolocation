@@ -1,6 +1,6 @@
 package geolocation.persistence;
 
-import geolocation.model.entity.Location;
+import geolocation.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

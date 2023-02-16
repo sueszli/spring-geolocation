@@ -1,7 +1,7 @@
 package geolocation.persistence;
 
-import geolocation.model.dto.SearchLocationDto;
-import geolocation.model.entity.Location;
+import geolocation.model.SearchLocationDto;
+import geolocation.model.Location;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

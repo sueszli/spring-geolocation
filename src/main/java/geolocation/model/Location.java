@@ -1,4 +1,4 @@
-package geolocation.model.entity;
+package geolocation.model;
 
 import geolocation.model.LocationTypeEnum;
 import jakarta.persistence.*;

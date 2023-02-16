@@ -1,4 +1,4 @@
-package geolocation.model.dto;
+package geolocation.model;
 
 import geolocation.model.LocationTypeEnum;
 import jakarta.annotation.Nullable;
