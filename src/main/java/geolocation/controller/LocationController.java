@@ -28,13 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationController {
 
-    @Autowired
     private final LocationMapper locationMapper;
-
-    @Autowired
     private final LocationJpaRepository locationJpaRepository;
-
-    @Autowired
     private final LocationDao locationDao;
 
     @PostMapping("/locations")
