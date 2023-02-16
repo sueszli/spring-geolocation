@@ -35,7 +35,6 @@ public class LocationController {
     public ResponseEntity<Location> createLocation(@RequestBody CreateLocationDto dto) {
         log.info("Creating location: {}", dto);
         var entity = locationMapper.dtoToEntity(dto);
-        log.debug("Location entity: {}", entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(locationJpaRepository.save(entity));
     }
 

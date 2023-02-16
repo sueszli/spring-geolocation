@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import geolocation.model.CreateLocationDto;
 import geolocation.model.LocationTypeEnum;
 import geolocation.model.SearchLocationDto;
-import org.json.JSONObject;
+import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -56,9 +55,7 @@ class LocationControllerUnitTests {
 
         var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
         var str = response.getContentAsString();
-        var locationsJson = new JSONObject(str)
-                .getJSONObject("_embedded")
-                .getJSONArray("locations");
+        var locationsJson = new JSONArray(str);
 
         for (int i = 0; i < locationsJson.length(); i++) {
             var locationJson = locationsJson.getJSONObject(i);
@@ -114,22 +111,19 @@ class LocationControllerUnitTests {
     public void getAllLocations_shouldPrioritizePremium() throws Exception {
         var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
         var str = response.getContentAsString();
-        var locationsJson = new JSONObject(str)
-                .getJSONObject("_embedded")
-                .getJSONArray("locations");
+        var locationsJson = new JSONArray(str);
 
-        var nameAndTypeToIndex = new HashMap<AbstractMap.SimpleEntry<String, String>, Integer>();
+        var idToIndex = new HashMap<String, Integer>();
         for (int i = 0; i < locationsJson.length(); i++) {
             var locationJson = locationsJson.getJSONObject(i);
-            var name = locationJson.getString("name");
-            var type = locationJson.getString("type");
-            nameAndTypeToIndex.put(new AbstractMap.SimpleEntry<>(name, type), i);
+            var id = locationJson.getString("id");
+            idToIndex.put(id, i);
         }
 
         var premiumIndices = new ArrayList<Integer>();
         var standardIndices = new ArrayList<Integer>();
-        nameAndTypeToIndex.forEach((nameAndType, index) -> {
-            if (nameAndType.getValue().equals(LocationTypeEnum.premium.toString())) {
+        idToIndex.forEach((id, index) -> {
+            if (id.equals("premium")) {
                 premiumIndices.add(index);
             } else {
                 standardIndices.add(index);
@@ -146,18 +140,31 @@ class LocationControllerUnitTests {
 
     @Test
     public void searchLocationsByType_shouldOnlyReturnTheSameType() throws Exception {
+        var premiumQuery = SearchLocationDto.builder().type(LocationTypeEnum.premium).build();
+        var response = mockMvc.perform(get(BASE_URI)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(premiumQuery)))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+        var locationsJson = new JSONArray(str);
+
+        for (int i = 0; i < locationsJson.length(); i++) {
+            var locationJson = locationsJson.getJSONObject(i);
+            var type = locationJson.getString("type");
+            assertThat(type).isEqualTo("premium");
+        }
     }
 
     @Test
     public void searchLocationsWithLimit_shouldReturnLimitedResults() throws Exception {
-    }
-
-    @Test
-    public void searchLocationsWithTypeAndLimit_shouldReturnLimitedResults() throws Exception {
-    }
-
-    @Test
-    public void searchLocationsWithRectangularArea_shouldReturnOnlyLocationsWithinTheArea() throws Exception {
+        var lim3Query = SearchLocationDto.builder().limit(3).build();
+        var response = mockMvc.perform(get(BASE_URI)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(lim3Query)))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+        var locationsJson = new JSONArray(str);
+        assertThat(locationsJson.length()).isEqualTo(3);
     }
 }
 

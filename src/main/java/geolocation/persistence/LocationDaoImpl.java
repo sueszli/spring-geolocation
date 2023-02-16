@@ -4,7 +4,7 @@ import geolocation.model.Location;
 import geolocation.model.SearchLocationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -22,18 +22,19 @@ public class LocationDaoImpl implements LocationDao {
     public List<Location> searchLocations(SearchLocationDto query) {
         log.trace("Searching locations: {}", query);
 
+        var sort = Sort.by("type").ascending();
+
         if (query == null) {
-            return locationJpaRepository.findAll();
+            return locationJpaRepository.findAll(sort);
         }
 
         var limit = query.getLimit();
-        var specification = createFilterSpecification(query);
-        var sort = Sort.by(Sort.Direction.DESC, "type");
+        var spec = createFilterSpecification(query);
 
         if (limit == null) {
-            return locationJpaRepository.findAll(specification);
+            return locationJpaRepository.findAll(spec, sort);
         } else {
-            return locationJpaRepository.findAll(specification, Pageable.ofSize(limit)).getContent();
+            return locationJpaRepository.findAll(spec, PageRequest.of(0, limit, sort)).getContent();
         }
     }
 
