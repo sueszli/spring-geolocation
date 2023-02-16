@@ -19,10 +19,12 @@ public class CreateLocationDto {
     @Size(min = 2, max = MAX_NAME_LENGTH)
     private String name;
 
+    @NotNull
     @DecimalMin(value = "-90")
     @DecimalMax(value = "90")
     private Double lat;
 
+    @NotNull
     @DecimalMin(value = "-180")
     @DecimalMax(value = "180")
     private Double lng;

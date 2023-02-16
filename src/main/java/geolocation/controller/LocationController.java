@@ -8,7 +8,6 @@ import geolocation.persistence.LocationDao;
 import geolocation.persistence.LocationJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,12 +33,15 @@ public class LocationController {
 
     @PostMapping("/locations")
     public ResponseEntity<Location> createLocation(@RequestBody CreateLocationDto dto) {
+        log.info("Creating location: {}", dto);
         var entity = locationMapper.dtoToEntity(dto);
+        log.debug("Location entity: {}", entity);
         return ResponseEntity.status(HttpStatus.CREATED).body(locationJpaRepository.save(entity));
     }
 
     @GetMapping("/locations")
     public ResponseEntity<List<Location>> searchLocations(@RequestBody SearchLocationDto query) {
+        log.info("Searching locations: {}", query);
         return ResponseEntity.status(HttpStatus.OK).body(locationDao.searchLocations(query));
     }
 }

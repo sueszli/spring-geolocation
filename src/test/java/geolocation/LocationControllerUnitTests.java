@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"test", "datagen"})
 class LocationControllerUnitTests {
 
-    private static final String BASE_URI = "/locations";
+    private static final String BASE_URI = "/api/locations";
 
     @Autowired
     private MockMvc mockMvc;

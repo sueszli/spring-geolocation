@@ -28,19 +28,24 @@ public class LocationDaoImpl implements LocationDao {
         var limit = query.getLimit();
         var specification = createFilterSpecification(query);
 
-        return limit == null ? locationJpaRepository.findAll(specification) : locationJpaRepository.findAll(specification, Pageable.ofSize(limit)).getContent();
+        return limit == null ? locationJpaRepository.findAll(specification) :
+                locationJpaRepository.findAll(specification, Pageable.ofSize(limit)).getContent();
     }
 
     private Specification<Location> createFilterSpecification(SearchLocationDto query) {
         log.trace("Creating filter specification for query: {}", query);
 
-        Specification<Location> matchesType = query.getType() == null ? null : (root, q, builder) -> builder.equal(root.get("type"), query.getType());
+        Specification<Location> matchesType = query.getType() == null ? null :
+                (root, q, builder) -> builder.equal(root.get("type"), query.getType());
 
         var minQueryLat = Math.min(query.getP1().getLat(), query.getP2().getLat());
         var maxQueryLat = Math.max(query.getP1().getLat(), query.getP2().getLat());
         var minQueryLng = Math.min(query.getP1().getLng(), query.getP2().getLng());
         var maxQueryLng = Math.max(query.getP1().getLng(), query.getP2().getLng());
-        Specification<Location> isInRectangle = (root, q, builder) -> builder.and(builder.between(root.get("lat"), minQueryLat, maxQueryLat), builder.between(root.get("lng"), minQueryLng, maxQueryLng));
+        Specification<Location> isInRectangle = (root, q, builder) -> builder.and(
+                builder.between(root.get("lat"), minQueryLat, maxQueryLat),
+                builder.between(root.get("lng"), minQueryLng, maxQueryLng)
+        );
 
         return Specification.where(matchesType).and(isInRectangle);
     }

@@ -35,12 +35,12 @@ public class SearchLocationDto {
     @ToString
     public static class Point {
 
-        @NotNull
+        @Nullable
         @DecimalMin(value = "-90")
         @DecimalMax(value = "90")
         private Double lat;
 
-        @NotNull
+        @Nullable
         @DecimalMin(value = "-180")
         @DecimalMax(value = "180")
         private Double lng;
