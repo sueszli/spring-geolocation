@@ -1,4 +1,4 @@
-# CRUD for Geolocation data in Spring-Boot ✨
+# Handling Geolocation data in Spring-Boot ✨
 
 A colleague created a small mobile app prototype to handle locations and you are asked to provide a backend application for it.
 
