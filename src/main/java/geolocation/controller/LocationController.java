@@ -40,7 +40,7 @@ public class LocationController {
     }
 
     @GetMapping("/locations")
-    public ResponseEntity<List<Location>> searchLocations(@RequestBody SearchLocationDto query) {
+    public ResponseEntity<List<Location>> searchLocations(@RequestBody(required = false) SearchLocationDto query) {
         log.info("Searching locations: {}", query);
         return ResponseEntity.status(HttpStatus.OK).body(locationDao.searchLocations(query));
     }

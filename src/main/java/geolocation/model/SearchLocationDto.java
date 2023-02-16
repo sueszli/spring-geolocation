@@ -1,15 +1,11 @@
 package geolocation.model;
 
 import jakarta.annotation.Nullable;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,10 +13,10 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class SearchLocationDto {
 
-    @NotNull
+    @Nullable
     private Point p1;
 
-    @NotNull
+    @Nullable
     private Point p2;
 
     @Nullable
@@ -32,17 +28,17 @@ public class SearchLocationDto {
 
     @Getter
     @Setter
-    @ToString
+    @RequiredArgsConstructor
     public static class Point {
 
-        @Nullable
         @DecimalMin(value = "-90")
         @DecimalMax(value = "90")
+        @Nullable
         private Double lat;
 
-        @Nullable
         @DecimalMin(value = "-180")
         @DecimalMax(value = "180")
+        @Nullable
         private Double lng;
     }
 }
