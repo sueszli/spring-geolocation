@@ -13,7 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,31 +44,6 @@ class LocationControllerUnitTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void getAllLocations_shouldSucceed() throws Exception {
-        var query = SearchLocationDto.builder().build();
-        mockMvc.perform(get(BASE_URI)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonMapper.writeValueAsString(query)))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void getAllLocations_shouldReturnAllDemoData() throws Exception {
-        var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
-        var str = response.getContentAsString();
-
-        var expectedNames = new ArrayList<String>() {{
-            add("demo_data1");
-            add("demo_data2");
-            add("demo_data3");
-            add("demo_data4");
-            add("demo_data5");
-        }};
-
-        expectedNames.forEach(name -> assertThat(str).contains(name));
     }
 
     @Test
@@ -106,6 +83,65 @@ class LocationControllerUnitTests {
                 .lng(randomLng)
                 .type(randomType)
                 .build();
+    }
+
+    @Test
+    public void getAllLocations_shouldSucceed() throws Exception {
+        var query = SearchLocationDto.builder().build();
+        mockMvc.perform(get(BASE_URI)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(query)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAllLocations_shouldReturnAllDemoData() throws Exception {
+        var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+
+        var expectedNames = new ArrayList<String>() {{
+            add("demo_data1");
+            add("demo_data2");
+            add("demo_data3");
+            add("demo_data4");
+            add("demo_data5");
+        }};
+
+        expectedNames.forEach(name -> assertThat(str).contains(name));
+    }
+
+    @Test
+    public void getAllLocations_shouldPrioritizePremium() throws Exception {
+        var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+        var locationsJson = new JSONObject(str)
+                .getJSONObject("_embedded")
+                .getJSONArray("locations");
+
+        var nameAndTypeToIndex = new HashMap<AbstractMap.SimpleEntry<String, String>, Integer>();
+        for (int i = 0; i < locationsJson.length(); i++) {
+            var locationJson = locationsJson.getJSONObject(i);
+            var name = locationJson.getString("name");
+            var type = locationJson.getString("type");
+            nameAndTypeToIndex.put(new AbstractMap.SimpleEntry<>(name, type), i);
+        }
+
+        var premiumIndices = new ArrayList<Integer>();
+        var standardIndices = new ArrayList<Integer>();
+        nameAndTypeToIndex.forEach((nameAndType, index) -> {
+            if (nameAndType.getValue().equals(LocationTypeEnum.premium.toString())) {
+                premiumIndices.add(index);
+            } else {
+                standardIndices.add(index);
+            }
+        });
+
+        // "premium" indices must be before "standard" indices
+        for (var premiumIndex : premiumIndices) {
+            for (var standardIndex : standardIndices) {
+                assertThat(premiumIndex).isLessThan(standardIndex);
+            }
+        }
     }
 }
 
