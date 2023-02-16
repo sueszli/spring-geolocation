@@ -3,11 +3,13 @@ package geolocation.location.model.entity;
 import geolocation.location.model.LocationTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
 @Table(name = "locations")
 @NoArgsConstructor
 @AllArgsConstructor

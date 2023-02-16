@@ -20,13 +20,15 @@ public class LocationSearchDto {
     @NotNull
     private Point p2;
 
-    @NotNull
     private LocationTypeEnum type;
 
     @Min(0)
     private int limit;
 
-    class Point {
+    @Getter
+    @Setter
+    @ToString
+    public class Point {
         @Size(min = -90, max = 90, message = "latitude must be between -90 and 90")
         private double lat;
 
