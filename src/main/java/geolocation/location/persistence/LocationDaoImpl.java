@@ -37,7 +37,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     private Specification<Location> buildSpecification(LocationSearchDto query) {
-
+        // https://github.com/TobiasDeVries/sepm-pr-ws2021-single/blob/master/backend/src/main/java/at/ac/tuwien/sepm/assignment/individual/horse/persistence/dao/impl/HorseDaoImpl.java
         return null;
     }
 
