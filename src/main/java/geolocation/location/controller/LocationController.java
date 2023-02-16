@@ -1,8 +1,8 @@
 package geolocation.location.controller;
 
 import geolocation.location.model.LocationMapper;
-import geolocation.location.model.dto.LocationCreateDto;
-import geolocation.location.model.dto.LocationSearchDto;
+import geolocation.location.model.dto.CreateLocationDto;
+import geolocation.location.model.dto.SearchLocationDto;
 import geolocation.location.model.entity.Location;
 import geolocation.location.persistence.LocationDao;
 import geolocation.location.persistence.LocationJpaRepository;
@@ -23,7 +23,7 @@ public class LocationController {
     LocationDao locationDao;
 
     @PostMapping("/locations")
-    public ResponseEntity<Location> createLocation(@RequestBody LocationCreateDto dto) {
+    public ResponseEntity<Location> createLocation(@RequestBody CreateLocationDto dto) {
         log.info("Creating location: {}", dto);
         var entity = locationMapper.dtoToEntity(dto);
         try {
@@ -34,7 +34,7 @@ public class LocationController {
     }
 
     @GetMapping("/locations")
-    public ResponseEntity<List<Location>> searchLocations(@RequestBody LocationSearchDto query) {
+    public ResponseEntity<List<Location>> searchLocations(@RequestBody SearchLocationDto query) {
         log.info("Searching locations: {}", query);
         try {
             return ResponseEntity.status(HttpStatus.OK).body(locationDao.searchLocations(query));

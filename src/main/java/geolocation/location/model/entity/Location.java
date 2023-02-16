@@ -19,16 +19,16 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = MAX_NAME_LENGTH)
     private String name;
 
     @Column(name = "lat", nullable = false)
-    private double lat;
+    private Double lat;
 
     @Column(name = "lng", nullable = false)
-    private double lng;
+    private Double lng;
 
     @Column(name = "type", nullable = false)
     private LocationTypeEnum type;

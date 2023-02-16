@@ -1,10 +1,13 @@
 package geolocation.location.persistence;
 
-import geolocation.location.model.dto.LocationSearchDto;
+import geolocation.location.model.dto.SearchLocationDto;
 import geolocation.location.model.entity.Location;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -18,28 +21,35 @@ public class LocationDaoImpl implements LocationDao {
     private final LocationJpaRepository locationJpaRepository;
 
     @Override
-    public List<Location> searchLocations(LocationSearchDto query) {
-        log.info("Searching locations: {}", query);
+    public List<Location> searchLocations(SearchLocationDto query) {
+        log.trace("Searching locations: {}", query);
         if (query == null) {
             return locationJpaRepository.findAll();
         }
 
-        var specification = buildSpecification(query);
-        return locationJpaRepository.findAll(specification);
+        var specification = createFilterSpecification(query);
+        return query.getLimit() == null ?
+                locationJpaRepository.findAll(specification) :
+                locationJpaRepository.findAll(specification, Pageable.ofSize(query.getLimit())).getContent();
     }
 
-    private boolean isInRectangle(LocationSearchDto.Point p1, LocationSearchDto.Point p2, double lat, double lng) {
-        var minLat = Math.min(p1.getLat(), p2.getLat());
-        var maxLat = Math.max(p1.getLat(), p2.getLat());
-        var minLng = Math.min(p1.getLng(), p2.getLng());
-        var maxLng = Math.max(p1.getLng(), p2.getLng());
-        return minLat <= lat && lat <= maxLat && minLng <= lng && lng <= maxLng;
+    private Specification<Location> createFilterSpecification(SearchLocationDto query) {
+        log.trace("Creating filter specification for query: {}", query);
+
+        Specification<Location> matchesType = query.getType() == null ? null :
+                (root, q, builder) -> builder.equal(root.get("type"), query.getType());
+
+        Specification<Location> isInRectangle = (root, q, builder) -> {
+            var minQueryLat = Math.min(query.getP1().getLat(), query.getP2().getLat());
+            var maxQueryLat = Math.max(query.getP1().getLat(), query.getP2().getLat());
+            var minQueryLng = Math.min(query.getP1().getLng(), query.getP2().getLng());
+            var maxQueryLng = Math.max(query.getP1().getLng(), query.getP2().getLng());
+            return builder.and(
+                    builder.between(root.get("lat"), minQueryLat, maxQueryLat),
+                    builder.between(root.get("lng"), minQueryLng, maxQueryLng)
+            );
+        };
+
+        return Specification.where(matchesType).and(isInRectangle);
     }
-
-    private Specification<Location> buildSpecification(LocationSearchDto query) {
-        // https://github.com/TobiasDeVries/sepm-pr-ws2021-single/blob/master/backend/src/main/java/at/ac/tuwien/sepm/assignment/individual/horse/persistence/dao/impl/HorseDaoImpl.java
-        return null;
-    }
-
-
 }
