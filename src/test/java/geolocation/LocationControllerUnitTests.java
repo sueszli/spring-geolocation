@@ -1,23 +1,26 @@
 package geolocation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import geolocation.controller.LocationController;
 import geolocation.model.CreateLocationDto;
 import geolocation.model.LocationTypeEnum;
+import geolocation.model.SearchLocationDto;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,14 +36,63 @@ class LocationControllerUnitTests {
     private ObjectMapper jsonMapper;
 
     @Test
-    public void createLocationShouldSucceed() throws Exception {
+    public void createLocation_shouldSucceed() throws Exception {
         var dto = createRandomLocationDto();
-        var json = jsonMapper.writeValueAsString(dto);
-
         mockMvc.perform(post(BASE_URI)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(jsonMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void getAllLocations_shouldSucceed() throws Exception {
+        var query = SearchLocationDto.builder().build();
+        mockMvc.perform(get(BASE_URI)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(query)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAllLocations_shouldReturnAllDemoData() throws Exception {
+        var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+
+        var expectedNames = new ArrayList<String>() {{
+            add("demo_data1");
+            add("demo_data2");
+            add("demo_data3");
+            add("demo_data4");
+            add("demo_data5");
+        }};
+
+        expectedNames.forEach(name -> assertThat(str).contains(name));
+    }
+
+    @Test
+    public void createLocation_shouldHaveSideEffect() throws Exception {
+        var dto = createRandomLocationDto();
+        mockMvc.perform(post(BASE_URI)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated());
+
+        var response = mockMvc.perform(get(BASE_URI)).andExpect(status().isOk()).andReturn().getResponse();
+        var str = response.getContentAsString();
+        var locationsJson = new JSONObject(str)
+                .getJSONObject("_embedded")
+                .getJSONArray("locations");
+
+        for (int i = 0; i < locationsJson.length(); i++) {
+            var locationJson = locationsJson.getJSONObject(i);
+            var name = locationJson.getString("name");
+            if (name.equals(dto.getName())) {
+                assertThat(locationJson.getDouble("lat")).isEqualTo(dto.getLat());
+                assertThat(locationJson.getDouble("lng")).isEqualTo(dto.getLng());
+                assertThat(locationJson.getString("type")).isEqualTo(dto.getType().toString());
+                return;
+            }
+        }
     }
 
     private CreateLocationDto createRandomLocationDto() {
