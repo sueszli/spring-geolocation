@@ -20,6 +20,7 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     public List<Location> searchLocations(SearchLocationDto query) {
         log.trace("Searching locations: {}", query);
+
         if (query == null) {
             return locationJpaRepository.findAll();
         }

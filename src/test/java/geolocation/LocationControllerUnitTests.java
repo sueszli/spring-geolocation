@@ -143,5 +143,21 @@ class LocationControllerUnitTests {
             }
         }
     }
+
+    @Test
+    public void searchLocationsByType_shouldOnlyReturnTheSameType() throws Exception {
+    }
+
+    @Test
+    public void searchLocationsWithLimit_shouldReturnLimitedResults() throws Exception {
+    }
+
+    @Test
+    public void searchLocationsWithTypeAndLimit_shouldReturnLimitedResults() throws Exception {
+    }
+
+    @Test
+    public void searchLocationsWithRectangularArea_shouldReturnOnlyLocationsWithinTheArea() throws Exception {
+    }
 }
 

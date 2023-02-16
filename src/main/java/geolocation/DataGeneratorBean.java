@@ -15,6 +15,7 @@ import java.sql.SQLException;
  * This component is only created, if the profile {@code datagen} is active. <br>
  * You can activate this profile by adding {@code -Dspring.profiles.active=datagen} to your maven command.
  */
+
 @Slf4j
 @Component
 @Profile("datagen")
