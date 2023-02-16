@@ -1,9 +1,9 @@
 package geolocation.controller;
 
-import geolocation.model.LocationMapper;
 import geolocation.model.CreateLocationDto;
-import geolocation.model.SearchLocationDto;
 import geolocation.model.Location;
+import geolocation.model.LocationMapper;
+import geolocation.model.SearchLocationDto;
 import geolocation.persistence.LocationDao;
 import geolocation.persistence.LocationJpaRepository;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package geolocation.persistence;
 
-import geolocation.model.SearchLocationDto;
 import geolocation.model.Location;
+import geolocation.model.SearchLocationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -41,10 +41,10 @@ public class LocationDaoImpl implements LocationDao {
         var minQueryLng = Math.min(query.getP1().getLng(), query.getP2().getLng());
         var maxQueryLng = Math.max(query.getP1().getLng(), query.getP2().getLng());
         Specification<Location> isInRectangle = (root, q, builder) ->
-            builder.and(
-                    builder.between(root.get("lat"), minQueryLat, maxQueryLat),
-                    builder.between(root.get("lng"), minQueryLng, maxQueryLng)
-            );
+                builder.and(
+                        builder.between(root.get("lat"), minQueryLat, maxQueryLat),
+                        builder.between(root.get("lng"), minQueryLng, maxQueryLng)
+                );
 
         return Specification.where(matchesType).and(isInRectangle);
     }

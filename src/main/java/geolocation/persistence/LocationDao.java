@@ -1,7 +1,7 @@
 package geolocation.persistence;
 
-import geolocation.model.SearchLocationDto;
 import geolocation.model.Location;
+import geolocation.model.SearchLocationDto;
 
 import java.util.List;
 

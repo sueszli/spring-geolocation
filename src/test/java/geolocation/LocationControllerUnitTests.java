@@ -21,8 +21,4 @@ class LocationControllerUnitTests {
 	@Autowired
 	private ObjectMapper jsonMapper;
 
-	@Test
-	void () {
-	}
-
 }

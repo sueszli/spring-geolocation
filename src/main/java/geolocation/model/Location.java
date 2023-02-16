@@ -1,6 +1,5 @@
 package geolocation.model;
 
-import geolocation.model.LocationTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
