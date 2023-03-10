@@ -7,7 +7,7 @@ Received Feedback:
 
 ### Bad:
 - API-Design:
-  - GET method should not have a request body. (note by me: alternatively I could have used https://nordicapis.com/your-guide-to-the-new-http-query-method/)
+  - GET method should not have a request body. (note by me: alternatively I could have used the new HTTP QUERY method)
   - No default limit leads to loading of the whole database into memory in case no limit is given.
 - Tests:
   - Testcases always use random input for single run, this is in our opinion an anti-pattern.
