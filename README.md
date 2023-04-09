@@ -1,6 +1,6 @@
-# Handling Geolocation data in Spring-Boot ✨
+# Handling geolocation data in Spring-Boot ✨
 
-A colleague created a small mobile app prototype to handle locations and you are asked to provide a backend application for it.
+You are asked to provide a backend application that handles geolocation data
 
 Create a REST API that handles locations.
 
