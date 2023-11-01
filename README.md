@@ -1,4 +1,4 @@
-# Handling geolocation data in Spring-Boot ✨
+# Geo API in Java Spring ✨
 
 You are asked to provide a backend application that handles geolocation data.
 
