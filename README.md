@@ -4,9 +4,7 @@ Create a REST API that handles locations.
 
 If requests come with a payload, the API should accept a json and should return a json as well, if a response is required.
 
-<br><br>
-
-### CREATE: Create a Location
+## CREATE: Create a Location
 
 It should be possible to create a new location by providing a `name`, a `type` with possible values `premium` or `standard`
 and coordinates using `lat` and `lng`.
@@ -24,9 +22,7 @@ Here some example values to create a location:
 }
 ```
 
-<br><br>
-
-### SEARCH: Search for a Location
+## SEARCH: Search for a Location
 
 It should be possible to search for locations based on `type` or by defining a rectangular area with two points `p1`, `p2`
 (`lat`,`lng`) and returning all locations within it.
