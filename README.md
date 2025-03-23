@@ -1,17 +1,15 @@
-You are asked to provide a backend application that handles geolocation data.
+A Spring backend project for handling geolocation data.
 
-Create a REST API that handles locations.
+# Create Location
 
-If requests come with a payload, the API should accept a json and should return a json as well, if a response is required.
+Create a new location by providing the following details:
 
-## CREATE: Create a Location
+- `name`: String
+- `type`: String ("premium" or "standard")
+- `lat`: Double (latitude)
+- `lng`: Double (longitude)
 
-It should be possible to create a new location by providing a `name`, a `type` with possible values `premium` or `standard`
-and coordinates using `lat` and `lng`.
-
-The system has to assign the location an `id` and return it back within the response.
-
-Here some example values to create a location:
+The system will assign and return an `id` for the new location.
 
 ```json
 {
@@ -22,16 +20,15 @@ Here some example values to create a location:
 }
 ```
 
-## SEARCH: Search for a Location
+# Search Location
 
-It should be possible to search for locations based on `type` or by defining a rectangular area with two points `p1`, `p2`
-(`lat`,`lng`) and returning all locations within it.
+Search for locations based on:
 
-It is also possible to use both criteria together and the result set might be limited by `limit`.
+- `type`: String (optional)
+- Rectangular area: `p1` and `p2` coordinates (optional)
+- `limit`: Integer (optional)
 
-Results must be ordered by type where `premium` ones come first.
-
-Here is an example to search for a location:
+Results are ordered by type, with "premium" locations first.
 
 ```json
 {
